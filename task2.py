@@ -13,7 +13,8 @@ def get_animals_count():
 
     session = requests.Session()
     session.headers.update({
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+        'AppleWebKit/537.36',
         'Accept-Language': 'ru-RU,ru;q=0.9'
     })
 
@@ -54,7 +55,9 @@ def get_animals_count():
 def process_animals(soup, letter_counts):
     count = 0
     # Ищем все группы элементов (основные и подкатегории)
-    category_groups = soup.find_all('div', class_=['mw-category', 'mw-category-group'])
+    category_groups = soup.find_all('div',
+                                    class_=['mw-category', 'mw-category-group']
+                                    )
 
     for group in category_groups:
         for link in group.find_all('a'):
@@ -72,7 +75,8 @@ def process_animals(soup, letter_counts):
             if '(' in name and ')' in name:
                 match = re.search(r'\((\d+)\)', name)
                 if match:
-                    letter_counts[first_char] += int(match.group(1)) - 1  # -1 чтобы не дублировать основной элемент
+                    # -1 чтобы не дублировать основной элемент
+                    letter_counts[first_char] += int(match.group(1)) - 1
                     count += int(match.group(1)) - 1
 
     return count
@@ -82,7 +86,9 @@ def find_category_links(soup, base_url):
     links = []
 
     # Ссылки на следующие страницы (учитываем разные варианты написания)
-    next_pages = soup.find_all('a', string=re.compile(r'Следующая страница|Next page|Далее'))
+    next_pages = soup.find_all('a', string=re.compile
+                               (r'Следующая страница|Next page|Далее')
+                               )
     for page in next_pages:
         if page.get('href'):
             links.append(base_url + page['href'])

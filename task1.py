@@ -8,14 +8,22 @@ def strict(func):
             if arg_name in annotations:
                 expected_type = annotations[arg_name]
                 if not isinstance(arg_value, expected_type):
-                    raise TypeError(f"Argument '{arg_name}' must be of type {expected_type.__name__}, not {type(arg_value).__name__}")
+                    raise TypeError(
+                        f"Argument '{arg_name}' must be of type "
+                        f"{expected_type.__name__}, "
+                        f"not {type(arg_value).__name__}"
+                    )
 
         # Проверяем именованные аргументы
         for arg_name, arg_value in kwargs.items():
             if arg_name in annotations:
                 expected_type = annotations[arg_name]
                 if not isinstance(arg_value, expected_type):
-                    raise TypeError(f"Argument '{arg_name}' must be of type {expected_type.__name__}, not {type(arg_value).__name__}")
+                    raise TypeError(
+                        f"Argument '{arg_name}' must be of type "
+                        f"{expected_type.__name__}, "
+                        f"not {type(arg_value).__name__}"
+                    )
 
         # Вызываем исходную функцию
         return func(*args, **kwargs)
